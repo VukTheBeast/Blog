@@ -1,2 +1,2 @@
-# Blog Site Developed in Clojure Web Technology
+# Blog Site Developed in Clojure
 
