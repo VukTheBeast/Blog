@@ -21,7 +21,7 @@ In project for front end it is used  [Start Boostrap tamplate][2]. Frontend code
     
 [2]:http://startbootstrap.com/template-overviews/clean-blog    
 [3]:http://weavejester.github.com/hiccup
-## Summery
+## Summary
 
 This is a  clojure projecs focused on making Blog site out of web development on clojure. 
 
