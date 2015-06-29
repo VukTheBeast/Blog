@@ -27,8 +27,8 @@
   (println "blog is starting")
   ;;u slucaju da ne postji tabela, napravi je
   (if-not (.exists (java.io.File. "./db.sq3"))
-    (db/create-guestbook-table))
-  )
+    (db/create-blog-table)
+    (db/create-comment-table)))
 
 (defn destroy []
   (println "blog is shutting down"))
