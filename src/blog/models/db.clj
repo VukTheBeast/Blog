@@ -49,6 +49,21 @@
       [:timestamp "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"]))
   )
 
+
+;;table rating
+(defn create-rating-table []
+  (sql/with-connection
+    db
+    (sql/create-table
+     :rating
+     [:id "INTEGER PRIMARY KEY AUTOINCREMENT"]
+     [:name "TEXT NOT NULL"]
+     [:rat_val "INTIGER NOT NULL"]
+     [:id_blog :serial "references blog (id)"] ;;foreign key
+     )
+    )
+  )
+
 ;;citaj blogove
 (defn read-blogs []
     (sql/with-connection
@@ -109,6 +124,28 @@
       [:name :message :timestamp]
       [name message (new java.util.Date)])))
 
+;;rating tabela
+(defn read-ratings []
+   (sql/with-connection
+    db
+    (sql/with-query-results res ;;res lazy
+    ["SELECT * FROM rating"]
+    (doall res))))
+
+(defn save-rating [name rat_val id_blog]
+  (sql/with-connection
+    db
+      (sql/insert-values
+      :rating
+      [:name :rat_val :id_blog]
+      [name rat_val id_blog])))
+
+;;get ratings by blog
+
+(defn get-rating [id]
+  (sql/with-connection db
+    (sql/with-query-results
+      res ["select * from rating where id_blog =?"id] (doall res))))
 
 ;;user tabela
 

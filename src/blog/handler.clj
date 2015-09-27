@@ -28,7 +28,8 @@
   ;;u slucaju da ne postji tabela, napravi je
   (if-not (.exists (java.io.File. "./db.sq3"))
     (do (db/create-blog-table)
-    (db/create-comment-table))))
+    (db/create-comment-table)
+      (db/create-rating-table))))
 
 (defn destroy []
   (println "blog is shutting down"))
@@ -42,7 +43,6 @@
    (handler/site
    (routes
        auth-routes
-
        about-routes
        contact-routes
        post-routes
