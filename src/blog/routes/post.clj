@@ -26,6 +26,15 @@
       [:ul.pager
        [:li.next
         [:a {:href (str "/comment/" id)} "Comment &rarr;"]]]
+       [:ul.pager
+       [:li.next
+        [:a {:href (str "/rate/" id)} "Rate &rarr;"]]]
+       [:ul.pager
+        [:li.next
+         [:form {:method "GET" :action (str "/rate/" id)}
+
+          ]
+         ]]
        ]
       [:br]
       ;;komentari

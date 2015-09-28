@@ -7,7 +7,7 @@
      [:title "Welcome to blog"]
      (include-css
                   "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-                  "/css/clean-blog.min.css"
+                  "/css/clean-blog.css"
                   "/css/font-awesome.css")
 
      (include-js "/js/jquery.js"

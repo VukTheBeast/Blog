@@ -11,8 +11,10 @@
             [blog.routes.contact :refer [contact-routes]]
             [blog.routes.post :refer [post-routes]]
             [blog.routes.comment :refer [comment-routes]]
+            [blog.routes.rate :refer [rate-routes]]
             [blog.routes.auth :refer [auth-routes]]
             [blog.routes.admin :refer [admin-routes]]
+
 
             ;;session
             [noir.session :as session]
@@ -47,6 +49,7 @@
        contact-routes
        post-routes
        comment-routes
+       rate-routes
        admin-routes
        home-routes
        app-routes))
