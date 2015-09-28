@@ -147,6 +147,12 @@
     (sql/with-query-results
       res ["select * from rating where id_blog =?"id] (doall res))))
 
+;;get avarage rating by blog
+(defn get-rating-avg [id]
+  (sql/with-connection db
+    (sql/with-query-results
+      res ["select ROUND(AVG(rat_val),2) as avgValue, COUNT(rat_val) as numPlp from rating where id_blog =?"id] (doall res))))
+
 ;;user tabela
 
 (defn create-user-table []

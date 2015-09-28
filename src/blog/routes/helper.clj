@@ -49,7 +49,10 @@
        [:span.subheading subheading]]]]]
    ])
 
-
+(defn show-avg-rating [id]
+  (for [{:keys [numplp avgvalue]}(blog.models.db/get-rating-avg id)]
+    [:text (str " [⋆ " avgvalue "/5 rated by " numplp " people]")])
+  )
 
 (defn show-blogs [& [all]]
   (for [{:keys [title subtitle timestamp blog_content id postman]}
@@ -61,9 +64,11 @@
      [:a {:href (str "/post/" id)}
       [:h2.post-title title]
       [:h3.post-subtitle subtitle]]
-     [:p.post-meta "Posted by " [:a {:href "#"} postman " on "] (format-time timestamp) ]
+     [:p.post-meta "Posted by " [:a {:href "#"} postman " on "] (format-time timestamp) (show-avg-rating id)]
    ]
  ))
+
+
 
 (defn show-comments [id]
   (for [{:keys [message comment_owner timestamp]} (blog.models.db/get-comment id)]
