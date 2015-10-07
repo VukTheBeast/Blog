@@ -2,21 +2,26 @@
   (:require [compojure.core :refer :all]
             [hiccup.form :refer :all]
             [blog.models.db :as db]
-            ;;validacija
             [noir.validation :refer [rule errors? has-value? on-error]]
             [noir.session :as session]))
 
-(defn format-time [timestamp]
+(defn format-time
+  "Format timestamp to propriet date"
+  [timestamp]
   (-> "dd/MM/yyyy"
       (java.text.SimpleDateFormat.)
       (.format timestamp)))
 
-(defn format-time-sec [timestamp]
+(defn format-time-sec
+  "Format timestamp to propriet datetime"
+  [timestamp]
   (-> "dd/MM/yyyy HH:mm:ss"
       (java.text.SimpleDateFormat.)
       (.format timestamp)))
 
-(defn navbar []
+(defn navbar
+  "Rendering a navbar component to a layout"
+  []
   (list [:nav.navbar.navbar-default.navbar-custom.navbar-fixed-top
    [:div.container-fluid
     ;;kada su mobile dimenzije da se napravi ikonica
@@ -31,14 +36,12 @@
       [:li [:a {:href "/"} "Home"]]
       [:li [:a {:href "/about"} "About"]]
       [:li [:a {:href "/contact"} "Contact"]]
-      [:li [:a {:href "/login"} "Admin"]]]]
-    ]
+      [:li [:a {:href "/login"} "Admin"]]]]]]))
 
-   ]))
 
-;;parametri title , podtitle i url slike
-;;{ :id "id" :title "title" :subtitle "subtitle" :postman "postmeta" :text "text" :date "date"}
-(defn header [head subheading url]
+(defn header
+  "Rendering header"
+  [head subheading url]
   [:header.intro-header {:style (str "background-image:url('"url"')")}
    [:div.container
     [:div.row
@@ -46,53 +49,53 @@
       [:div.site-heading
        [:h1 head]
        [:hr.small]
-       [:span.subheading subheading]]]]]
-   ])
+       [:span.subheading subheading]]]]]])
 
-(defn show-avg-rating [id]
+(defn show-avg-rating
+  "Show avrage ratings blog and number of graders"
+  [id]
   (for [{:keys [numplp avgvalue]}(blog.models.db/get-rating-avg id)]
-    [:text (str " [⋆ " avgvalue "/5 rated by " numplp " people]")])
-  )
+    [:text (str " [⋆ " avgvalue "/5 rated by " numplp " people]")]))
 
-(defn show-blogs [& [all]]
+
+(defn show-blogs
+  "Display blogs on home page. By default it display 3 newest blogs,
+   optional shows all blogs"
+  [& [all]]
   (for [{:keys [title subtitle timestamp blog_content id postman]}
         (cond
          (has-value? all) (blog.models.db/read-blogs)
-         :else (take 3 (blog.models.db/read-blogs)))
-        ]
-    [:div.post-preview
-     [:a {:href (str "/post/" id)}
-      [:h2.post-title title]
-      [:h3.post-subtitle subtitle]]
-     [:p.post-meta "Posted by " [:a {:href "#"} postman " on "] (format-time timestamp) (show-avg-rating id)]
-   ]
- ))
+         :else (take 3 (blog.models.db/read-blogs)))]
+        [:div.post-preview
+         [:a {:href (str "/post/" id)}
+          [:h2.post-title title]
+          [:h3.post-subtitle subtitle]]
+         [:p.post-meta "Posted by " [:a {:href "#"} postman " on "] (format-time timestamp) (show-avg-rating id)]]))
 
 
 
-(defn show-comments [id]
+(defn show-comments
+  "Display comment in formated html of blog with uniq id"
+  [id]
   (for [{:keys [message comment_owner timestamp]} (blog.models.db/get-comment id)]
     [:div.post-preview
     [:h3.post-subtitle message]
     [:p.post-meta "Comment by " comment_owner " at " (format-time-sec timestamp)]
-    [:hr]
-   ]
- ))
+    [:hr]]))
 
-
-;;about page
-
-(defn about-content []
+(defn about-content
+  "Display about conntent"
+  []
   (list [:p "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?"]
   [:p "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!"]
-  [:p "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum molestiae debitis nobis, quod sapiente qui voluptatum, placeat magni repudiandae accusantium fugit quas labore non rerum possimus, corrupti enim modi! Et."]
-  )
-  )
+  [:p "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum molestiae debitis nobis, quod sapiente qui voluptatum, placeat magni repudiandae accusantium fugit quas labore non rerum possimus, corrupti enim modi! Et."]))
 
 
 
-;;za footer
-(defn social-button []
+
+(defn social-button
+  "Rendering social buttons for footer, for better maintenace"
+  []
   (list [:li
     [:a {:href "https://www.facebook.com/vuk.manic.9"}
      [:span.fa-stack.fa-lg

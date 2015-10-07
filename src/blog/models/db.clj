@@ -2,13 +2,13 @@
   (:require [clojure.java.jdbc :as sql])
   (:import java.sql.DriverManager))
 
-;;definicija za db, database conneciton string
+;;database conneciton string
 (def db {:classname "org.sqlite.JDBC",
          :subprotocol "sqlite",
          :subname "db.sq3"})
 
 
-;;primer kreiranja tabele
+
 (defn create-guestbook-table []
   (sql/with-connection
     db
@@ -21,8 +21,10 @@
     (sql/do-commands "CREATE INDEX timestamp_index ON guestbook (timestamp)")))
 
 
-;;tabela blog
-(defn create-blog-table []
+
+(defn create-blog-table
+  "Table blogs"
+  []
   (sql/with-connection
     db
      (sql/create-table
@@ -32,11 +34,9 @@
       [:subtitle "TEXT NOT NULL"]
       [:postman "TEXT NOT NULL"]
       [:blog_content "TEXT NOT NULL"]
-      [:timestamp "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"]
-      ))
-  )
+      [:timestamp "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"])))
 
-;;tabela komentar
+
 (defn create-comment-table []
   (sql/with-connection
     db
@@ -46,11 +46,9 @@
       [:comment_owner "TEXT"]
       [:message "TEXT"]
       [:related_blog :serial "references blog (id)"] ;;foreign key
-      [:timestamp "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"]))
-  )
+      [:timestamp "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"])))
 
 
-;;table rating
 (defn create-rating-table []
   (sql/with-connection
     db
@@ -60,11 +58,9 @@
      [:name "TEXT NOT NULL"]
      [:rat_val "INTIGER NOT NULL"]
      [:id_blog :serial "references blog (id)"] ;;foreign key
-     )
-    )
-  )
+     )))
 
-;;citaj blogove
+
 (defn read-blogs []
     (sql/with-connection
     db
@@ -72,13 +68,12 @@
     ["SELECT * FROM blog ORDER BY timestamp DESC"]
     (doall res))))
 
-;;citaj odredjeni blog
 (defn get-blog [id]
   (sql/with-connection db
     (sql/with-query-results
       res ["select * from blog where id = ?" id] (first res))))
 
-;;citaj komentar odredjenog bloga
+
 (defn get-comment [id]
   (sql/with-connection db
     (sql/with-query-results
@@ -86,10 +81,10 @@
 
 (defn read-comments-all []
     (sql/with-connection
-    db
-    (sql/with-query-results res ;;res lazy
-    ["SELECT * FROM comment ORDER BY timestamp DESC"]
-    (doall res))))
+      db
+      (sql/with-query-results res ;;res lazy
+      ["SELECT * FROM comment ORDER BY timestamp DESC"]
+      (doall res))))
 
 
 (defn save-blog [title subtitle postman blog-content]
@@ -124,7 +119,7 @@
       [:name :message :timestamp]
       [name message (new java.util.Date)])))
 
-;;rating tabela
+
 (defn read-ratings []
    (sql/with-connection
     db
@@ -140,20 +135,19 @@
       [:name :rat_val :id_blog]
       [name rat_val id_blog])))
 
-;;get ratings by blog
-
 (defn get-rating [id]
   (sql/with-connection db
     (sql/with-query-results
       res ["select * from rating where id_blog =?"id] (doall res))))
 
-;;get avarage rating by blog
-(defn get-rating-avg [id]
+
+(defn get-rating-avg
+  "Get avarage ratings of blog"
+  [id]
   (sql/with-connection db
     (sql/with-query-results
       res ["select ROUND(AVG(rat_val),2) as avgValue, COUNT(rat_val) as numPlp from rating where id_blog =?"id] (doall res))))
 
-;;user tabela
 
 (defn create-user-table []
   (sql/with-connection
@@ -163,12 +157,11 @@
       [:id "varchar(20) PRIMARY KEY"]
       [:pass "varchar(100)"])))
 
-;;dodaj user-a
+
 (defn add-user-record [user]
   (sql/with-connection db
     (sql/insert-record :users user)))
 
-;;select
 (defn get-user [id]
   (sql/with-connection db
     (sql/with-query-results

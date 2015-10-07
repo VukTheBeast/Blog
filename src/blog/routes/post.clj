@@ -12,9 +12,7 @@
 (defn post [id]
   (layout/common
     (helper/navbar)
-   ;;(for [{:keys [title subtitle timestamp blog_content id postman]} (db/get-blog id)]
     (helper/header ((db/get-blog id) :title) ((db/get-blog id) :subtitle) "/img/post-bg.jpg")
-  ;;main
   [:div.container
     [:div.row
      [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
@@ -31,34 +29,18 @@
         [:a {:href (str "/rate/" id)} "Rate &rarr;"]]]
        [:ul.pager
         [:li.next
-         [:form {:method "GET" :action (str "/rate/" id)}
-
-          ]
-         ]]
-       ]
+         [:form {:method "GET" :action (str "/rate/" id)}]]]]
       [:br]
-      ;;komentari
       [:div
        [:h2 "Comments"]
-       (helper/show-comments id)
-       ]
-      ]]]
-     ;;)
-
+       (helper/show-comments id)]]]]
     [:footer
      [:div.container
       [:div.row
        [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
         [:ul.list-inline.text-center
          (helper/social-button)]
-        [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]
-     )
-
-    )
-
-
-
+        [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]))
 
 (defroutes post-routes
-  (GET "/post/:id" [id] (post id))
-)
+  (GET "/post/:id" [id] (post id)))

@@ -23,11 +23,7 @@
        [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
         [:ul.list-inline.text-center
          (helper/social-button)]
-        [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]
-     )
-
-    )
+        [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]))
 
 (defroutes about-routes
-  (GET "/about" [] (about))
-)
+  (GET "/about" [] (about)))

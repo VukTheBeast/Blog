@@ -4,27 +4,16 @@
             [hiccup.form :refer :all]
             [blog.models.db :as db]
             [noir.session :as session]
-            ;;validacija
             [noir.validation :refer [rule errors? has-value? on-error]]
-
             [blog.routes.helper :as helper]))
 
-
-
-(defn show-guests []
-  [:ul.guests
-    (for [{:keys [message name timestamp]} (db/read-guests)]
-      [:li
-      [:blockquote message]
-      [:p "-" [:cite name]]
-      [:time (helper/format-time timestamp)]])])
-
-
-(defn home [& [flag]]
+(defn home
+  "Main Blog home page, optional param for displaying all blogs
+   by default it display 3 newst blogs"
+  [& [flag]]
   (layout/common
     (helper/navbar)
     (helper/header "Vuk Blog" "A  Blog developed in clojure technology" "img/home-bg.jpg")
-   ;;mein content
    [:div.container
     [:div.row
      [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
@@ -33,21 +22,15 @@
        [:li.next
         (cond
         (has-value? flag )()
-        :else [:a {:href "/all"} "Older Posts &rarr;"]
-        )
-        ]]]]]
+        :else [:a {:href "/all"} "Older Posts &rarr;"])]]]]]
     [:hr]
-
     [:footer
      [:div.container
       [:div.row
        [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
         [:ul.list-inline.text-center
          (helper/social-button)]
-        [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]
-     )
-
-    )
+        [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]))
 
 
 (defn save-message [name message]
@@ -61,32 +44,8 @@
       (db/save-message name message)
       (home))))
 
-(defn foo-handler []
-  "foo pozvan")
-
-(defn bar-handler [param]
-  (str "Pozvan post sa parametrom: " param))
-
-(defn display-profile [id]
-  (str "profile sa id " id))
-
-(defn display-settings [id]
-  (str "settings sa id " id))
-
-(defn change-password-page [id]
-  (str "change-password-page sa id " id))
-
 (defroutes home-routes
   (GET "/" [] (home))
   (GET "/:flag" [flag] (home flag) )
-  (POST "/" [name message] (save-message name message))
-  (GET "/vuk" [] (foo-handler))
-  (POST "/vuk" [param] (bar-handler param))
-  (context "/user/:id" [id]
-    (GET "/profile" [] (display-profile id))
-    (GET "/settings" [] (display-settings id))
-    (GET "/change-password" [] (change-password-page id)))
-  )
+  (POST "/" [name message] (save-message name message)))
 
-
-;;http://www.lispcast.com/hiccup-tips

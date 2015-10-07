@@ -1,9 +1,7 @@
 (ns blog.routes.comment
   (:require [compojure.core :refer [defroutes GET POST]]
             [compojure.core :refer :all]
-            ;;redirect namespace
             [noir.response :refer [redirect]]
-
             [blog.views.layout :as layout]
             [hiccup.form :refer :all]
             [blog.models.db :as db]
@@ -15,7 +13,6 @@
   (layout/common
     (helper/navbar)
     (helper/header "Comment" "Be nice!" "/img/comment-bg.jpg")
-  ;;main
   [:div.container
     [:div.row
      [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
@@ -36,12 +33,7 @@
        [:div#success]
        [:div.row
         [:div.form-group.col-xs-12.floating-label-form-group.controls
-         [:button.btn.btn-default.submit "Comment"]]]
-       ]
-
-      ]
-
-     ]]
+         [:button.btn.btn-default.submit "Comment"]]]]]]]
     [:footer
      [:div.container
       [:div.row
@@ -49,18 +41,13 @@
         [:ul.list-inline.text-center
          (helper/social-button)]
         [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]
-   [:script {:type "text/javascript" :src "/js/comment.js"}]
-     )
-
-    )
+         [:script {:type "text/javascript" :src "/js/comment.js"}]))
 
 (defn save-comment [id name message]
-  (db/save-comment name message id)
-  ;;(redirect "/post/" id)
-  )
+  (db/save-comment name message id))
 
 
 (defroutes comment-routes
   (GET "/comment/:id" [id] (page id))
-  (POST "/comment" [id name message] (save-comment id name message))
-)
+  (POST "/comment" [id name message]
+    (save-comment id name message)))

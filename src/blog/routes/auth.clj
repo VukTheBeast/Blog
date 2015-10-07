@@ -6,22 +6,20 @@
             [form-to label text-field password-field submit-button]]
             [noir.response :refer [redirect]]
             [noir.session :as session]
-            ;;helper
             [blog.routes.helper :as helper]
-            ;;validacija
             [noir.validation :refer [rule errors? has-value? on-error]]
-            ;;enkripcija
             [noir.util.crypt :as crypt]
-            ;;baza
             [blog.models.db :as db]))
 
 
-;;helper function
-
-(defn format-error [[error]]
+(defn format-error
+  "Formating error text in propriet html format"
+  [[error]]
   [:p.error error])
 
-(defn control [field name text]
+(defn control
+  "Format form fields and adding errors notification"
+  [field name text]
   (list (on-error name format-error)
       (label name text)
       (field name)
@@ -71,14 +69,7 @@
        [:div#success]
        [:div.row
         [:div.form-group.col-xs-12.floating-label-form-group.controls
-         [:button.btn.btn-default.submit "Login"]]]
-       ]
-
-      ]
-
-     ]]
-
-   ))
+         [:button.btn.btn-default.submit "Login"]]]]]]]))
 
 (comment
 (defn handle-login [id pass]
@@ -93,8 +84,7 @@
     (login-page)
       (do
         (session/put! :user id)
-        (redirect "/")))))
-  )
+        (redirect "/"))))))
 
 (defn handle-login [id pass]
   (cond
@@ -104,10 +94,10 @@
     (login-page "password is required")
     (and (= "admin" id) (= "admin" pass))
     (do
-    (session/put! :user id)
-    (redirect "/admin"))
-    :else
-    (login-page "authentication failed")))
+     (session/put! :user id)
+     (redirect "/admin"))
+     :else
+     (login-page "authentication failed")))
 
 
 (defroutes auth-routes
@@ -116,5 +106,4 @@
         (handle-registration id pass pass1))
   (GET "/login" [] (login-page))
   (POST "/login" [id pass]
-        (handle-login id pass))
-  )
+        (handle-login id pass)))

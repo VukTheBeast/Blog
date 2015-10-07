@@ -7,12 +7,10 @@
             [blog.routes.helper :as helper]))
 
 
-
 (defn contact []
   (layout/common
     (helper/navbar)
     (helper/header "Contact Me" "Have questions? I have answers (maybe)." "img/contact-bg.jpg")
-  ;;main
   [:div.container
     [:div.row
      [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
@@ -45,25 +43,14 @@
        [:div#success]
        [:div.row
         [:div.form-group.col-xs-12.floating-label-form-group.controls
-         [:button.btn.btn-default {:type "submit"} "Send"]]]
-       ]
-
-      ]
-
-     ]]
+         [:button.btn.btn-default {:type "submit"} "Send"]]]]]]]
     [:footer
      [:div.container
       [:div.row
        [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
         [:ul.list-inline.text-center
          (helper/social-button)]
-        [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]
-     )
-
-    )
-
-
-
+        [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]))
 
 (defroutes contact-routes
   (GET "/contact" [] (contact))

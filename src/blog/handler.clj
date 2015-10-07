@@ -14,20 +14,17 @@
             [blog.routes.rate :refer [rate-routes]]
             [blog.routes.auth :refer [auth-routes]]
             [blog.routes.admin :refer [admin-routes]]
-
-
             ;;session
             [noir.session :as session]
             [ring.middleware.session.memory :refer [memory-store]]
             ;;model
             [blog.models.db :as db]
-            ;;validacija
+            ;;validacion
             [noir.validation :refer [wrap-noir-validation]]))
 
 
 (defn init []
   (println "blog is starting")
-  ;;u slucaju da ne postji tabela, napravi je
   (if-not (.exists (java.io.File. "./db.sq3"))
     (do (db/create-blog-table)
     (db/create-comment-table)

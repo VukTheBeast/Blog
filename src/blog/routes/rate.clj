@@ -1,9 +1,7 @@
 (ns blog.routes.rate
   (:require [compojure.core :refer [defroutes GET POST]]
             [compojure.core :refer :all]
-            ;;redirect namespace
             [noir.response :refer [redirect]]
-
             [blog.views.layout :as layout]
             [hiccup.form :refer :all]
             [blog.models.db :as db]
@@ -15,7 +13,6 @@
   (layout/common
     (helper/navbar)
     (helper/header "Rate" "You can do it!" "/img/comment-bg.jpg")
-  ;;main
   [:div.container
     [:div.row
      [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
@@ -38,31 +35,19 @@
        [:div#success]
        [:div.row
         [:div.form-group.col-xs-12.floating-label-form-group.controls
-         [:button.btn.btn-default.submit "Rate"]]]
-       ]
-
-      ]
-
-     ]]
+         [:button.btn.btn-default.submit "Rate"]]]]]]]
     [:footer
      [:div.container
       [:div.row
        [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
         [:ul.list-inline.text-center
          (helper/social-button)]
-        [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]
-
-     )
-
-    )
+        [:p.copyright.text-muted "Copyright &copy; www.blog.vuk"]]]]]))
 
 (defn save-rate [id name rat_val]
-  (db/save-rating name rat_val id)
-  ;;(redirect "/post/" id)
-  )
+  (db/save-rating name rat_val id))
 
 
 (defroutes rate-routes
   (GET "/rate/:id" [id] (page id))
-  (POST "/rate" [id name rat_val] (save-rate id name rat_val))
-)
+  (POST "/rate" [id name rat_val] (save-rate id name rat_val)))

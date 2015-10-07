@@ -5,15 +5,12 @@
             [blog.models.db :as db]
             [noir.session :as session]
             [blog.routes.helper :as helper]
-            ;;validacija
             [noir.validation :refer [rule errors? has-value? on-error]]
-            ;;redirect
             [noir.response :refer [redirect]]))
 
 (defn navbar []
   (list [:nav.navbar.navbar-default.navbar-custom.navbar-fixed-top
    [:div.container-fluid
-    ;;kada su mobile dimenzije da se napravi ikonica
     [:div.navbar-header.page-scroll
      [:button.navbar-toggle {:type "button" :data-toggle "collapse" :data-target "#bs-example-navbar-collapse-1"}
       [:span.sr-only "Toggle navigation"]
@@ -23,12 +20,7 @@
     [:div.collapse.navbar-collapse {:id "bs-example-navbar-collapse-1"}
      [:ul.nav.navbar-nav.navbar-right
       [:li [:a {:href "/"} "Home"]]
-      [:li [:a {:href "/logout"} "Logout"]]]]
-    ]
-
-   ]))
-
-
+      [:li [:a {:href "/logout"} "Logout"]]]]]]))
 
 
 (defn admin-page [& [success]]
@@ -61,14 +53,7 @@
        [:div#success]
        [:div.row
         [:div.form-group.col-xs-12.floating-label-form-group.controls
-         [:button.btn.btn-default.submit "Add blog"]]]
-       ]
-
-      ]
-
-     ]]
-
-   ))
+         [:button.btn.btn-default.submit "Add blog"]]]]]]]))
 
 (defn logout []
   (session/clear!)
@@ -76,8 +61,7 @@
 
 (defn add-blog [title subtitle content]
   (db/save-blog title subtitle "Admin" content)
-  (admin-page "You successfuly add your awesome blog!")
-  )
+  (admin-page "You successfuly add your awesome blog!"))
 
 
 (defroutes admin-routes
@@ -86,5 +70,4 @@
        (admin-page)
        (redirect "/login")))
   (POST "/admin" [title subtitle content] (add-blog title subtitle content))
-  (GET "/logout" [] (logout))
-)
+  (GET "/logout" [] (logout)))
