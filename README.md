@@ -38,5 +38,11 @@ This is a  clojure projecs focused on making Blog site out of web development on
  Show reccomedations blogs  based on collaborative filltering.
 
 
+##Usefull links
+[The Clojure Style Guide][4] , <br>
+[Hiccup Tips][5]
+[4]:https://github.com/bbatsov/clojure-style-guide
+[5]:http://www.lispcast.com/hiccup-tips
+
 ## License
 Copyright © 2015 Vuk Manic
