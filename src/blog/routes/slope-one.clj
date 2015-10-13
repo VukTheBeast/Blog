@@ -58,3 +58,19 @@
          (reduce get-rating-fn [0 0])
          (apply /))))
 
+(defn known-posts
+  "returns the names of
+   all posts id in the model data"
+  [model]
+  (-> model :differences keys))
+
+(defn recommodations
+  ([model preferences]
+   (predictions
+    model
+    preferences
+    (filter #(not (contains? preferences %))
+            (known-posts model))))
+  ([model preferences items]
+   (mapmap (partial predict model preferences)
+           items)))
