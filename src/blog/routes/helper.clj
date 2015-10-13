@@ -106,6 +106,15 @@
              (assoc! m k (f k v)))
            (transient m) m)))
 
+(defn map-nested-vals
+  "applyed map-vals for sublevel fo map, nested map in this case"
+  [f m]
+  (map-vals
+   (fn [k1 inner-map]
+     (map-vals
+      (fn [k2 val] (f [k1 k2] val)) inner-map)) m))
+
+
 
 (defn social-button
   "Rendering social buttons for footer, for better maintenace"
