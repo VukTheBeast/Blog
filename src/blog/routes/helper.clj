@@ -114,7 +114,16 @@
      (map-vals
       (fn [k2 val] (f [k1 k2] val)) inner-map)) m))
 
-
+(defn mapmap
+  "appling two functions to a
+   given sequence and returns a map with keys,if  a single function
+   is passed to the mapmap function, it uses the identity function to generate keys in
+   the map returned by it."
+  ([vf s]
+   (mapmap identity vf s))
+  ([kf vf s]
+   (zipmap (map kf s)
+           (map vf s))))
 
 (defn social-button
   "Rendering social buttons for footer, for better maintenace"
