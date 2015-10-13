@@ -5,7 +5,8 @@
             [hiccup.form :refer :all]
             [blog.models.db :as db]
             [noir.session :as session]
-            [blog.routes.helper :as helper]))
+            [blog.routes.helper :as helper]
+            [blog.routes.slopeone :as slope]))
 
 
 
@@ -33,7 +34,11 @@
       [:br]
       [:div
        [:h2 "Comments"]
-       (helper/show-comments id)]]]]
+       (helper/show-comments id)]]
+     [:div.col-lg-2.col-md-2
+      [:span.meta "Recommendet posts:"]
+      [:span (for [{:keys [id-predicted]}(slope/return-predictions-ids id)]
+               [:a {:href (str "/post/"id-predicted)} (db/get-blog-title id-predicted)])]]]]
     [:footer
      [:div.container
       [:div.row

@@ -1,6 +1,9 @@
-(ns blog.routes.slope-one)
-(use 'blog.models.formatted-data)
-(use 'blog.routes.helper)
+(ns blog.routes.slopeone
+  (:require [compojure.core :refer :all]
+            [blog.models.formatteddata :as dbf]
+            [blog.routes.helper :as hlp]))
+
+
 
 (defn slope-one
   "function to produce
@@ -14,7 +17,7 @@
                          :when (and (not= i j)
                                     u-i u-j)]
                      [[i j] (- u-i u-j)]))
-        diff-vec (flat-vec diff-map)
+        diff-vec (hlp/flat-vec diff-map)
         update-fn (fn [[freqs-so-far diffs-so-far]
                        [item-pair diff]]
                     [(update-in
@@ -27,7 +30,7 @@
         [freqs
          total-diffs] (reduce update-fn
                               [{} {}] diff-vec)
-        differences (map-nested-vals
+        differences (hlp/map-nested-vals
                      (fn [item-pair diff]
                        (/ diff (get-in freqs item-pair)))
                      total-diffs)]
@@ -66,11 +69,17 @@
 
 (defn recommodations
   ([model preferences]
-   (predictions
+   (recommodations
     model
     preferences
     (filter #(not (contains? preferences %))
             (known-posts model))))
   ([model preferences items]
-   (mapmap (partial predict model preferences)
+   (hlp/mapmap (partial predict model preferences)
            items)))
+
+(def slope-model (slope-one dbf/data))
+
+(defn return-predictions-ids
+  [id]
+  post_ids (recommodations slope-model {:(str id) 3}))

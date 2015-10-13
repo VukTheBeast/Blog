@@ -74,6 +74,14 @@
       res ["select * from blog where id = ?" id] (first res))))
 
 
+(defn get-blog-title
+  "Procedure used for reccomodation, for each key to fetch a blog title"
+  [id]
+  (sql/with-connection db
+    (sql/with-query-results
+      res ["select title from blog where id = ?" id] (first res))))
+
+
 (defn get-comment [id]
   (sql/with-connection db
     (sql/with-query-results
