@@ -36,6 +36,8 @@ each item they like (for more information, refer to a [wiki][6]). Generally, ite
 techniques will use the user's ratings and past behavior of users to estimate a simple
 regression model for each user. Thus, we estimate a function fu (x) = ax + b for all
 users u in the system.
+![alt tag](https://raw.githubusercontent.com/VukTheBeast/Blog/master/recommend.PNG)
+
 [6]:https://en.wikipedia.org/wiki/Slope_One    
 [2]:http://startbootstrap.com/template-overviews/clean-blog    
 [3]:http://weavejester.github.com/hiccup
