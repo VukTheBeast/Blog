@@ -90,7 +90,21 @@
   [:p "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!"]
   [:p "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum molestiae debitis nobis, quod sapiente qui voluptatum, placeat magni repudiandae accusantium fugit quas labore non rerum possimus, corrupti enim modi! Et."]))
 
+(defn flat-vec
+  "Converts a map
+   to a flat vector"
+  [coll]
+  (reduce #(apply conj %1 %2)
+          []
+          coll))
 
+(defn map-vals
+  "mutating the values of a given map, using transient function"
+  [f m]
+  (persistent!
+   (reduce (fn [m [k v]]
+             (assoc! m k (f k v)))
+           (transient m) m)))
 
 
 (defn social-button

@@ -135,6 +135,7 @@
       [:name :rat_val :id_blog]
       [name rat_val id_blog])))
 
+
 (defn get-rating [id]
   (sql/with-connection db
     (sql/with-query-results
@@ -147,6 +148,16 @@
   (sql/with-connection db
     (sql/with-query-results
       res ["select ROUND(AVG(rat_val),2) as avgValue, COUNT(rat_val) as numPlp from rating where id_blog =?"id] (doall res))))
+
+(defn get-rating-by-name [ime]
+  (sql/with-connection db
+    (sql/with-query-results
+      res ["select id_blog, rat_val from rating where name =?"ime] (doall res))))
+
+(defn get-rating-authors-name []
+  (sql/with-connection db
+    (sql/with-query-results
+      res ["select distinct name from rating"] (doall res))))
 
 
 (defn create-user-table []
