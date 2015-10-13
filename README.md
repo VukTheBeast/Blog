@@ -53,5 +53,11 @@ This is a  clojure projecs focused on making Blog site out of web development on
 [4]:https://github.com/bbatsov/clojure-style-guide
 [5]:http://www.lispcast.com/hiccup-tips
 
+##Books
+[Clojure for Machine learning][7]<br />
+[Programming Collective Intelligence][8]
+[7]:http://www.amazon.com/Clojure-Machine-Learning-Akhil-Wali/dp/1783284358/ref=sr_1_1?s=books&ie=UTF8&qid=1444773010&sr=1-1&keywords=Clojure+for+Machine+learning 
+[8]:http://www.amazon.com/Programming-Collective-Intelligence-Applications-Paperback/dp/B00E82JV3S/ref=sr_1_8?s=books&ie=UTF8&qid=1444773034&sr=1-8&keywords=Programming+Collective+Intelligence
+
 ## License
 Copyright © 2015 Vuk Manic
