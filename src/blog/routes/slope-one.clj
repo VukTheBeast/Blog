@@ -38,5 +38,23 @@
 
 
 
-
+(defn predict
+  "retrieve the sum of frequencies and differences of each item in the maps returned by
+   the slope-one function"
+  [{:keys [differences freqs]
+    :as model}
+   preferences
+   item]
+  (let [get-rating-fn (fn [[num-acc denom-acc]
+                           [i rating]]
+                        (let [freqs-ji (get-in freqs [item i])]
+                          [(+ num-acc
+                              (* (+ (get-in differences [item i])
+                                    rating)
+                                 freqs-ji))
+                           (+ denom-acc freqs-ji)]))]
+    (->> preferences
+         (filter #(not= (first %) item))
+         (reduce get-rating-fn [0 0])
+         (apply /))))
 
